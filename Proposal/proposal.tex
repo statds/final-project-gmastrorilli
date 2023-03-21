@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+
+%% preamble
+\usepackage{amsmath}
+\usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+
+% highlighting hyper links and refrences 
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+% Need to research how to properly cite websites
+
+
+\title{STAT 3255 Final Project Proposal }
+\author{Ginamarie Mastrorilli\\
+  Department of Statistics\\
+  University of Connecticut
+}
+
+\begin{document}
+\maketitle
+
+
+\paragraph{Introduction}
+%Introduction: Introducing the topic and why you have chosen this topic (3–5 lines). 
+%Mention briefly the current related research and cite relevant works.
+
+
+Introduction & Specific Aims: After looking at  the 311 data requests from the NYPD, there are many agencies that are included in these requests. 
+One of the agencies that was of interest to me is the Department of Health and Mental Hygiene (DHMH). The requests from the DHMH are mostly health related and are related to having livable conditions.
+Even though this is a non-emergency service, a lot of these requests should be completed fairly quickly to ensure livable conditions and do not strain the requester's mental health further.
+
+
+\paragraph{Specific Aims}
+%Specific aims: Formulate a research question or hypothesis in the chosen topic.
+% Describe briefly why you select such a question or hypothesis and its importance in the field (cite sources).
+
+%ask if should use dif variables w more observations
+\paragraph{Data}
+
+Data: 
+My data has been collected from the NYPD 311 requests from NYC Open data website. 
+Subset has 48281 observations
+The variables I will be using are ( fill in) from this dataset
+I will also attempt to merge this dataset with the UZ zip code data from the python package us zip code to gain more variables 
+
+
+
+\paragraph{Research Design and Methods}
+% say statisical methods
+Research Design and Methods: 
+Create a variable over 24hr 
+For this final project, I plan to conduct a pairwise KS test on my variable over24hr and its association to borough 
+Can do multiple KS tests,
+From us zip code can do med household value
+Maybe test association of over24hr and complaint type
+Would need to see how many variables and categorize them into smaller groups if needed
+
+
+
+
+\paragraph{Discussion}
+
+
+\paragraph{Conclusion}
+
+
+Conclusion
+My goal is to be able to find factors that are associated with longer response times 
+
+
+\bibliography{refrences}
+\bibliographystyle{chicago}
+
+\end{document}
