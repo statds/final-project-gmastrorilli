@@ -25,7 +25,7 @@
 
 \paragraph{Introduction}
 Across the United States, many cities have started a 311 service request system for non emergency services. 
-Ariel White states that “311 data are by definition a measure of neighborhood-level realized demand for services and provide information about the relative intensity with which different parts of the city vie for the attention of the government.” 
+\citet{white2018promises} states that “311 data are by definition a measure of neighborhood-level realized demand for services and provide information about the relative intensity with which different parts of the city vie for the attention of the government.” 
 Many of these requests, even though non emergencies, impact the livable conditions and mental health of the requestor. 
 I am interested in exploring more about how the government can find ways to improve the request completion time and in turn help the health of the city. 
 
@@ -37,7 +37,7 @@ I will be researching request completion times and their association to the orig
 Learning if the origin of the request, whether from a phone, submitted online, etc., can help give the government helpful information on which channels need to be followed closer. 
 This can help 311 request initiatives across the globe be more successful and efficient. 
 Physical and mental health is something a lot of people overlook. 
-Scott Minkoff states, “The collection of millions of geocoded data points corresponding to problems also has the potential to reveal important information about the distribution of physical conditions and government-provided goods and services within cities.” 
+\citet{minkoff2016nyc} states, “The collection of millions of geocoded data points corresponding to problems also has the potential to reveal important information about the distribution of physical conditions and government-provided goods and services within cities.” 
 Minkoff’s perspective is what I am trying to achieve in this project. 
 The goal is to determine if these 311 requests can help reveal where the city needs to focus more health services to better the living conditions of its citizens. 
 
@@ -47,11 +47,12 @@ For this project, I will use data consisting of New York 311 requests and Chicag
 The NYC 311 data is collected from NYC OpenData, specifically their 311 Service Request from 2010 to Present dataset. 
 I created a subset which includes created date values from 00:00:00 01/15/2023 and 24:00:00 01/21/2023 with the Agency equal to the Department of Health and Mental Hygiene. 
 This subset has 48281 observations. 
-The specific variables from this dataset I am interested in using are ‘Created Date’, ‘Closed Date’ and  'Open Data Channel Type'. 
+The specific variables from this dataset I am interested in using are Created Date, Closed Date and  Open Data Channel Type. 
 The Chicago 311 request data is from the City of Chicago Data portal, specifically their 311 Service Request dataset. 
 I created a subset which includes created date values from 00:00:00 01/15/2023 and 24:00:00 01/21/2023 with the Owner Department equal to Health. 
 This subset has 1537 observations. 
-The specific variables from this dataset I am interested in using are ‘Created_Date’, ‘Closed_Date’ and ‘Origin’. 
+The specific variables from this dataset I am interested in using are Created Date, Closed Date and Origin. 
+
 
 \paragraph{Research Design and Methods}
 My plan for this project is to create a binary variable called ‘over24hr.’ 
@@ -67,7 +68,7 @@ I expect to find an association between the created variable ‘over24hr’ and 
 There may be a lag time or bias from the department for different request origins. 
 My goal is to make the health department more efficient in their request responses. 
 If I am able to find an association between these variables, this is something that the department can look further into. 
-If a citizen’s health is being compromised because of the way they submit a request, this bias needs to be eliminated. 
+If a citizen's health is being compromised because of the way they submit a request, this bias needs to be eliminated. 
 If my investigation results in no association to substantial closing times then that also is a great finding. 
 This shows that no matter which way a citizen submits their request, they will be sure to have it completed in a timely manner. 
 This allows the department to propose 311 requests to all people and does not favor one method over another. 
@@ -78,5 +79,7 @@ Overall, I am curious to see if there is an association between request completi
 The purpose behind this project is to test the efficiency of New York and Chicago’s 311 request initiative while also exploring my own interest in bettering the health of society. 
 My findings, whether they support my hypothesis or not, will allow me to report the effectiveness of the health departments closure times. 
 
+\bibliography{refrences}
+\bibliographystyle{chicago}
 
 \end{document}

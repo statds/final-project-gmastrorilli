@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.29)  22 MAR 2023 14:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.29)  22 MAR 2023 14:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -354,40 +354,20 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-/Users/ginamastrorilli/Desktop/stat3255/final-project-gmastrorilli-1/Proposal/proposal.tex:54: Missing $ inserted.
-<inserted text> 
-                $
-l.54 ...t I am interested in using are ‘Created_
-                                                  Date’, ‘Closed_Date’...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+
+Package natbib Warning: Citation `white2018promises' on page 1 undefined on input line 28.
 
 
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 54.
-
-
-LaTeX Warning: Command \textquoteleft invalid in math mode on input line 54.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 54.
-
-
-LaTeX Warning: Command \textquoteleft invalid in math mode on input line 54.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 54.
-
-/Users/ginamastrorilli/Desktop/stat3255/final-project-gmastrorilli-1/Proposal/proposal.tex:55: Missing $ inserted.
-<inserted text> 
-                $
-l.55 
-     
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+Package natbib Warning: Citation `minkoff2016nyc' on page 1 undefined on input line 40.
 
 [1
 
-{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] (./proposal.aux)
+{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+No file proposal.bbl.
+
+Package natbib Warning: There were undefined citations.
+
+[2] (./proposal.aux)
 
 Package rerunfilecheck Warning: File `proposal.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
@@ -398,18 +378,18 @@ Package rerunfilecheck Info: Checksums for `proposal.out':
 (rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 9704 strings out of 478268
- 151565 string characters out of 5846347
+ 9689 strings out of 478268
+ 151417 string characters out of 5846347
  457839 words of memory out of 5000000
- 27802 multiletter control sequences out of 15000+600000
- 474639 words of font info for 47 fonts, out of 8000000 for 9000
+ 27793 multiletter control sequences out of 15000+600000
+ 471527 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,6n,63p,378b,327s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on proposal.pdf (2 pages, 80744 bytes).
+ 60i,6n,63p,393b,327s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on proposal.pdf (2 pages, 52964 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
  9 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
