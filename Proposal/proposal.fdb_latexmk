@@ -2,11 +2,11 @@
 ["bibtex proposal"] 0 "proposal.aux" "proposal.bbl" "proposal" 0
   "/usr/local/texlive/2022/texmf-dist/bibtex/bst/chicago/chicago.bst" 1198629289 37416 2ae04276c51f11eda70770f4081293b7 ""
   "proposal.aux" 0 -1 0 "pdflatex"
-  "refrences.bib" 1679510280 589 2c3db974b41e51b3ba9ec4d7f6b2cf61 ""
+  "refrences.bib" 1679510488 588 eb9d1e4d465f3f2fdb5e174b6e426229 ""
   (generated)
   "proposal.bbl"
   "proposal.blg"
-["pdflatex"] 1679510380 "/Users/ginamastrorilli/Desktop/stat3255/final-project-gmastrorilli-1/Proposal/proposal.tex" "proposal.pdf" "proposal" 1679510380
+["pdflatex"] 1679510491 "/Users/ginamastrorilli/Desktop/stat3255/final-project-gmastrorilli-1/Proposal/proposal.tex" "proposal.pdf" "proposal" 1679510491
   "/Users/ginamastrorilli/Desktop/stat3255/final-project-gmastrorilli-1/Proposal/proposal.tex" 1679510378 5678 08e256233535c0cd296f2d473124556d ""
   "/usr/local/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2022/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -75,10 +75,10 @@
   "/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1647878959 4410336 7d30a02e9fa9a16d7d1f8d037ba69641 ""
   "/usr/local/texlive/2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1664467243 2826443 e9f15c3f92c28835fa0aacd7b4063307 ""
   "/usr/local/texlive/2022/texmf.cnf" 1647878952 577 209b46be99c9075fd74d4c0369380e8c ""
-  "proposal.aux" 1679510380 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "proposal.aux" 1679510491 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
   "proposal.bbl" 0 -1 0 "bibtex proposal"
   "proposal.out" 0 -1 0 "pdflatex"
-  "proposal.tex" 1679510378 5678 08e256233535c0cd296f2d473124556d ""
+  "proposal.tex" 1679510492 5678 08e256233535c0cd296f2d473124556d ""
   (generated)
   "proposal.aux"
   "proposal.log"
