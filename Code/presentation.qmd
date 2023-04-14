@@ -1,0 +1,309 @@
+---
+title: 311 Health Department Requests Closure Times for NYC vs Chicago
+author: Ginamarie Mastrorilli
+date: 04/14/2023
+format:
+  html:
+    code-fold: true
+    embed-resources: true
+---
+Many 311 requests, even though are considered non-emergency, do impact the well being of the requester. 311 requests have the potential to undercover where a city needs to improve on their physical and mental health programs. Scott Minkoff states, “The collection of millions of geocoded data points corresponding to problems also has the potential to reveal important information about the distribution of physical conditions and government provided goods and services within cities.”
+
+My goal for this project is to undercover if the method of submission for a request impacts the completion time for that specific request. 311 requests related to health should be completed fairly quickly to ensure livable conditions and do not strain the requester's mental or physical health further. 
+
+Examples of Health Department Complaint Types:
+
+- Rodents
+- Indoor Air Quality
+- Restaurant Complaint
+- Food Poisoning
+- Smoking
+- Construction Dust
+- Unsanitary Conditions
+
+
+Learning if the origin of the request, whether from a phone, submitted online, etc., can help give the city helpful information on which channels need to be followed closer.
+
+I will be comparing requests from New York City Department of Health and Mental Hygine with Chicago Health Departement. I collected data from the month of January for both cities from NYC OpenData and the City of Chicago Data Portal.
+
+Both cities keep track of the origin of the request. For NYC this is called Open Data Channel Type, and for Chicago this is called Origin. There are 3 categories within the Origin column for NYC: Mobile, Online and Phone. I regrouped the Chicago values to match these 3 values from NYC. 
+
+For each city, I create a column 'duration' which is the Closed Date minus the Completed Date for the request. I then create a binary variable that represents if the request was over the 80th percentile or not. This will allow me to see if the request took a substancial amount of time or not. 
+
+## NYC: 
+
+```{python}
+import pandas as pd
+nyc311 = pd.read_csv("/Users/ginamastrorilli/Desktop/nyc311_011523-012123_by022023.csv")
+
+nyc = nyc311[nyc311['Agency'] == 'DOHMH']
+
+#create NYC duration column
+nyc_dates = nyc[nyc['Closed Date'] >= nyc['Created Date']].dropna(subset=['Closed Date'])
+nyc_dates['Created Date'] = pd.to_datetime(nyc_dates['Created Date'])
+nyc_dates['Closed Date'] = pd.to_datetime(nyc_dates['Closed Date'])
+nyc_dates['duration'] = (nyc_dates['Closed Date'] - nyc_dates['Created Date'])/pd.Timedelta(hours=1)
+
+# to plot NYC duration
+import matplotlib.pyplot as plt
+
+plt.hist(nyc_dates['duration'], bins=20)
+plt.xlabel('Duration (hours)')
+plt.ylabel('Frequency')
+plt.title('Distribution of Duration')
+plt.show()
+
+#to find 80th percentile 
+nyc_80 = nyc_dates['duration'].quantile(0.8)
+print(f"The duration value at the 80th percentile for NYC is {nyc_80:.2f} hours")
+```
+
+From the graph above we can see that most of the durations fall within 0-100 hours, but the 80th percentile is 47.70 hours. I will create a new variable called 'over46h' to track substancial request completion times for NYC.
+
+```{python}
+# creating new binary var that is over 46hr
+nyc_dates['over46h'] = (nyc_dates['duration'] > 46).astype(int)
+
+# nyc contigency table
+nyc_CT = pd.crosstab(nyc_dates['Open Data Channel Type'], nyc_dates['over46h'])
+
+ax = nyc_CT.plot(kind='bar', stacked=False)
+ax.set_xlabel('Open Data Channel Type')
+ax.set_ylabel('Requests')
+ax.set_title('NYC Request Duration by Channel Type')
+plt.show()
+```
+
+From the graph above, we can see that the distributions are similar but ther there is an imbalance of data for requests that are completed over 46 hours in NYC.
+
+To determine whether the distribution of 'over46h' is the same across Open Data Channel Types, I will be using a  Kolmogorov-Smirnov (KS) test.
+
+The null hypothesis for this test is that all of the Open Data Channel Types have the same distribution of 'over46h.'
+
+```{python}
+from itertools import combinations
+from scipy.stats import ks_2samp
+nyc_open_grouped = nyc_dates.groupby('Open Data Channel Type')['duration']
+
+channel_names = ['ONLINE', 'MOBILE', 'PHONE']
+
+
+for b1, b2 in combinations(channel_names, 2):
+    ks_statistic, p_value = ks_2samp(nyc_open_grouped.get_group(b1), nyc_open_grouped.get_group(b2))
+    print(f"{b1} vs {b2}: KS statistic = {ks_statistic:.3f}, p-value = {p_value:.3f}")
+```
+
+```{python}
+# to graph
+import numpy as np
+channel_names = ['ONLINE', 'MOBILE', 'PHONE']
+ks_stats = [0.111, 0.129, 0.051]
+p_values = [0.112, 0.047, 0.931]
+
+# to create plot
+fig, ax = plt.subplots(figsize=(8, 6))
+x_pos = np.arange(len(channel_names))
+bar_colors = ['red', 'green', 'blue']
+ax.bar(x_pos, ks_stats, align='center', alpha=0.5, color=bar_colors)
+ax.set_xticks(x_pos)
+ax.set_xticklabels(channel_names)
+ax.set_ylabel('KS statistic')
+ax.set_title('New York KS test results')
+ax.set_ylim([0, 0.175])
+
+# adding pvalue to the plot
+for i, v in enumerate(p_values):
+    ax.text(i, ks_stats[i] + 0.01, f"p = {v:.3f}", ha='center')
+
+plt.show()
+
+```
+
+From the KS test above and using a significance level of $\alpha$ = .05, we can see that the test between Online vs Phone resulted in a P-Value less than .05. This means we can reject the null hypothesis for this test and there is enough statistical evidence to conclude that the distributions of Online and Phone are significantly different.
+
+For the KS tests between Online vs Mobile, and Mobile vs Phone it returned P-Values greater than .05 so there is not enough statistical evidence to conclude the distributions of duration are significantly different between these distributions. 
+
+From this test, we can see that the Department of Health and Mental Hygine in New York should look into why the distributions between Online requests and Phone requests are significantly different. Since there is not enough evidence to conclude the other distributions are statistically different, this is still good news to the citizens of New York since submitting a request by Mobile will not lead to a substancial completion time just based off of how the request is submitted. 
+
+## Chicago:
+
+```{python}
+chi311 = pd.read_csv("/Users/ginamastrorilli/Desktop/chicago 311_Service_Requests.csv")
+
+chi = chi311[chi311['CREATED_DEPARTMENT'] == 'Health']
+#to create Chicago duration column
+chi_dates = chi[chi['CLOSED_DATE'] >= chi['CREATED_DATE']].dropna(subset=['CLOSED_DATE'])
+chi_dates['CREATED_DATE'] = pd.to_datetime(chi_dates['CREATED_DATE'])
+chi_dates['CLOSED_DATE'] = pd.to_datetime(chi_dates['CLOSED_DATE'])
+chi_dates['duration'] = (chi_dates['CLOSED_DATE'] - chi_dates['CREATED_DATE'])/pd.Timedelta(hours=1)
+chi_dates = chi_dates[chi_dates['duration'] <= 1700]
+
+#to plot Chiacgo duration
+plt.hist(chi_dates['duration'], bins=20)
+plt.xlabel('Duration (hours)')
+plt.ylabel('Frequency')
+plt.title('Distribution of Duration')
+plt.show()
+
+#to calc Chi 80th percentile
+chi_80 = chi_dates['duration'].quantile(0.8)
+# print the result
+print(f"The duration value at the 80th percentile for CHI is {chi_80:.2f} hours")
+```
+
+For Chicago, we can see that the distribution is wider compared to NYC. From the graph above, we can see that most of the durations fall between 0-250, but the 80th percentile is 765.70 hours. I will create a new variable called 'over765h' to track substancial request completion times for Chicago.
+
+A limitation of this study is that there is no data dictionary for the Chicago 311 requests. I used my own research and intuition to group the Origin column to match NYC Open Data Channel Type to the best of my ability.
+
+
+Online/Other
+
+- Internet 
+- Chicago Community Safety Coordination Center (CSCC)
+- City Department
+- Alderman Office 
+- Mail
+- Generated in-house 
+- HealthProfessionals      
+- Open311 Interface
+
+Mobile
+
+- Email 
+- Mobile Device 
+
+Phone
+
+- Phone Call 
+
+```{python}
+# creating new binary var that is over 765hr
+chi_dates['over765h'] = (chi_dates['duration'] > 765).astype(int)
+
+# to regroup Chi origins
+categories = {
+    'Internet': 'Online/Other',
+    'Chicago Community Safety Coordination Center (CSCC)': 'Online/Other',
+    'City Department': 'Online/Other',
+    'Alderman\'s Office': 'Online/Other',
+    'Mail': 'Online/Other',
+    'Generated In House': 'Online/Other',
+    'HealthProfessionals': 'Online/Other',
+    'Open311 Interface': 'Online/Other',
+    'E-Mail': 'Mobile',
+    'Mobile Device': 'Mobile',
+    'Phone Call': 'Phone'
+}
+
+
+chi_dates['Origin_Grouped'] = chi_dates['ORIGIN'].map(categories)
+
+# chi contigency table
+chi_CT = pd.crosstab(chi_dates['Origin_Grouped'], chi_dates['over765h'])
+
+#chi graph
+ax = chi_CT.plot(kind='bar', stacked=False)
+ax.set_xlabel('Origin Type')
+ax.set_ylabel('Requests')
+ax.set_title('CHI Request Duration by Origin Type')
+plt.show()
+```
+
+From the graph above, we can see that the distributions are not very similar and there are many more requests in the Phone Origin type.
+
+To determine whether the distribution of 'over765h' is hte same across Origin Types, I will use a KS test again. 
+
+```{python}
+# chi ks test
+chi_open_grouped = chi_dates.groupby('Origin_Grouped')['duration']
+
+origin_names = ['Online/Other', 'Mobile', 'Phone']
+
+for b1, b2 in combinations(origin_names, 2):
+    ks_statistic, p_value = ks_2samp(chi_open_grouped.get_group(b1), chi_open_grouped.get_group(b2))
+    print(f"{b1} vs {b2}: KS statistic = {ks_statistic:.3f}, p-value = {p_value:.3f}")
+```
+
+```{python}
+origin_names = ['Online/Other', 'Mobile', 'Phone']
+cks_stats = [0.202, 0.225, 0.071]
+cp_values = [0.046, 0.010, 0.382]
+
+# to create plot
+fig, ax = plt.subplots(figsize=(8, 6))
+x_pos = np.arange(len(origin_names))
+bar_colors = ['red', 'green', 'blue']
+ax.bar(x_pos, cks_stats, align='center', alpha=0.5, color=bar_colors)
+ax.set_xticks(x_pos)
+ax.set_xticklabels(origin_names)
+ax.set_ylabel('KS statistic')
+ax.set_title('Chicago KS test results')
+ax.set_ylim([0, 0.3])
+
+# adding pvalue to the plot
+for i, v in enumerate(cp_values):
+    ax.text(i, cks_stats[i] + 0.01, f"p = {v:.3f}", ha='center')
+
+plt.show()
+```
+
+From the KS test above and using a significance level of $\alpha$ = .05, we can see that the test between Online/Other vs Mobile and Online/Other vs Phone resulted in a P-Value less than .05. This means we can reject the null hypothesis for this test and there is enough statistical evidence to conclude that the distributions of over765h are significantly different.
+
+For the KS tests between Mobile vs Phone, it returned P-Values greater than .05 so there is not enough statistical evidence to conclude the distributions of duration are significantly different. 
+
+From this KS Test, we can see that the Chicago Health Department should reasearch why Online/Other vs Mobile and Online/Other vs Phone are significantly different. For Chicago residents, this test shows that if they submit their 311 request by either Mobile or Phone, there is no statistical evidence that their request completion time will be substanctially longer based off of their request origin. 
+
+### Comparison Between NYC & Chicago
+
+```{python}
+
+#NYC
+channel_names = ['ONLINE', 'MOBILE', 'PHONE']
+ks_stats = [0.111, 0.129, 0.051]
+p_values = [0.112, 0.047, 0.931]
+
+#CHI
+origin_names = ['Online/Other', 'Mobile', 'Phone']
+cks_stats = [0.202, 0.225, 0.071]
+cp_values = [0.046, 0.010, 0.382]
+
+#make plot
+fig, ax = plt.subplots(figsize=(10, 6))
+x_pos = np.arange(len(channel_names))
+bar_width = 0.35
+opacity = 0.8
+bar_colors = ['green']
+bar_colors1 = ['orange']
+
+# plot NYC
+rects1 = ax.bar(x_pos, ks_stats, bar_width,
+                alpha=opacity,
+                color=bar_colors,
+                label='New York')
+
+# plot CHI
+rects2 = ax.bar(x_pos + bar_width, cks_stats, bar_width,
+                alpha=opacity,
+                color=bar_colors1,
+                label='Chicago')
+
+ax.set_xticks(x_pos + bar_width / 2)
+ax.set_xticklabels(channel_names)
+ax.set_ylim([0, 0.3])
+ax.set_ylabel('KS statistic')
+ax.set_title('New York vs Chicago KS Test Results')
+ax.legend()
+
+#to add pvalues 
+for i, v in enumerate(p_values):
+    ax.text(i, ks_stats[i] + 0.01, f"p = {v:.3f}", ha='center')
+for i, v in enumerate(cp_values):
+    ax.text(i + bar_width, cks_stats[i] + 0.01, f"p = {v:.3f}", ha='center')
+
+plt.show()
+```
+
+Overall, from the graph above we can see that in both cities, Phone requests have the smallest KS statistic. From this we can infer that the distribution of completion times is most similar across the samples. 
+
+We can also see that Mobile requests from both cities have the highest KS statistic and therefore the distributions have more variability. 
+
